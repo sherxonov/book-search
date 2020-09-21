@@ -19,3 +19,5 @@ Route::get('/', function () {
 
 
 Route::resource('/shelves', 'ShelvesController');
+
+Route::resource('/niche', 'NicheController');

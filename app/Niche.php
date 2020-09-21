@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Shelf extends Model
+class Niche extends Model
 {
     protected $guarded = [];
-    public function niche(){
-        return $this->hasMany(Niche::class);
+    public function shelf(){
+        return $this->belongsTo(Shelf::class);
     }
 }
