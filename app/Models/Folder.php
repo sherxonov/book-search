@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Niche extends Model
+class Folder extends Model
 {
     /**
      * @inheritdoc
@@ -22,14 +22,15 @@ class Niche extends Model
     }
 
     /**
-     * Relation with Folder model
+     * Relation with Niche model
      *
      * @return void
      */
-    public function folder()
+    public function niche()
     {
-        return $this->hasMany(Folder::class);
+        return $this->belongsTo(Niche::class);
     }
+
 
     /**
      * Relation with Document model
@@ -40,5 +41,4 @@ class Niche extends Model
     {
         return $this->hasMany(Document::class);
     }
-
 }

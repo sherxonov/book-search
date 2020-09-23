@@ -4,14 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Document;
 use App\Http\Requests\DocumentRequest;
+use App\Models\Document as ModelsDocument;
 use App\Shelf;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Services\DocumentService;
 
 class DocumentController extends Controller
 {
+
+    /**
+     * Service attribute
+     *
+     * @var \App\Services\DocumentService
+     */
+    protected $service;
+
+    /**
+     * Construct
+     *
+     * @param DocumentService $documentService
+     */
+    public function __construct(DocumentService $documentService)
+    {
+        $this->service = $documentService;
+    }
 
     /**
      * List of all files
@@ -21,10 +40,9 @@ class DocumentController extends Controller
      */
     public function index(Request $request)
     {
-        $document = Document::where('name', 'like', '%'.$request->get('q').'%')->get();
-        $shelf = Shelf::all();
+        $document = $this->service->filter($request->q);
 
-        return view('document.index', compact('document', 'shelf'));
+        return view('document.index', compact('document'));
     }
 
     /**
@@ -32,9 +50,10 @@ class DocumentController extends Controller
      *
      * @return void
      */
-    public function create()
+    public function create(Request $request)
     {
-        $shelves = Shelf::all();
+        $shelves = $this->service->shelf($request);
+
         return view('document.create', compact('shelves'));
     }
 
@@ -51,7 +70,7 @@ class DocumentController extends Controller
         $uploaded = $file->store('public');
 
 
-        Document::create([
+        $this->service->create([
             'file' => $uploaded,
             'name'=>$originalname,
             'folder_id' => $request->folder_id
@@ -61,10 +80,10 @@ class DocumentController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $document = Document::findOrfail($id);
-        $shelves = Shelf::all();
+        $document = $this->service->read($id);
+        $shelves = $this->service->shelf($request);
         return view('document.edit', compact('document', 'shelves'));
     }
     /**
@@ -76,7 +95,8 @@ class DocumentController extends Controller
      */
     public function update(DocumentRequest $request,$id)
     {
-        $document = Document::findOrfail($id);
+        $document = $this->service->read($id);
+
 
         $name = $document->name;
         $file_name = $document->file;
@@ -87,7 +107,7 @@ class DocumentController extends Controller
             $file_name = $request->file->store('public');
         }
 
-        $document->update([
+        $this->service->update($id, [
             'name'=> $name,
             'file' => $file_name,
             'folder_id'=>$request->folder_id
@@ -104,7 +124,7 @@ class DocumentController extends Controller
      */
     public function destroy($id)
     {
-        $document = Document::findOrfail($id);
+        $document = $this->service->read($id);
         Storage::delete($document->file);
         $document->delete();
 
@@ -113,7 +133,7 @@ class DocumentController extends Controller
 
     public function download($id)
     {
-        $document = Document::findOrfail($id);
+        $document = $this->service->read($id);
 
         return Storage::download($document->file, $document->name);
     }

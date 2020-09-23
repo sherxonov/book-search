@@ -1,24 +1,24 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Shelf extends Model
+class Niche extends Model
 {
-    /** 
-    *@inheritdoc
-    */
+    /**
+     * @inheritdoc
+     */
     protected $guarded = [];
 
     /**
-     * Relation with Niche model
+     * Relation with Shelf model
      *
      * @return void
      */
-    public function niche()
+    public function shelf()
     {
-        return $this->hasMany(Niche::class);
+        return $this->belongsTo(Shelf::class);
     }
 
     /**
@@ -40,4 +40,5 @@ class Shelf extends Model
     {
         return $this->hasMany(Document::class);
     }
+
 }

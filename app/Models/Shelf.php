@@ -1,25 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\Niche;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Folder;
 
-class Folder extends Model
+class Shelf extends Model
 {
     /**
-     * @inheritdoc
-     */
+    *@inheritdoc
+    */
     protected $guarded = [];
-
-    /**
-     * Relation with Shelf model
-     *
-     * @return void
-     */
-    public function shelf()
-    {
-        return $this->belongsTo(Shelf::class);
-    }
 
     /**
      * Relation with Niche model
@@ -28,9 +20,18 @@ class Folder extends Model
      */
     public function niche()
     {
-        return $this->belongsTo(Niche::class);
+        return $this->hasMany(Niche::class);
     }
 
+    /**
+     * Relation with Folder model
+     *
+     * @return void
+     */
+    public function folder()
+    {
+        return $this->hasMany(Folder::class);
+    }
 
     /**
      * Relation with Document model
