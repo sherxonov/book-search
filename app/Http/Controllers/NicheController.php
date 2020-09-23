@@ -3,21 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NicheRequest;
-use App\Niche;
-use App\Shelf;
+use App\Services\NicheService;
 use Illuminate\Http\Request;
 
 class NicheController extends Controller
 {
+
+    /**
+     * Service attribute
+     *
+     * @var \App\Services\NicheService
+     */
+    protected $service;
+
+    /**
+     * Construct
+     *
+     * @param NicheService $documentService
+     */
+    public function __construct(NicheService $nicheService)
+    {
+        $this->service = $nicheService;
+    }
+
     /**
      * List of all Niches
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        $niche = Niche::all();
-        $shelf = Shelf::all();
+        $niche = $this->service->repo->getAll();
+        $shelf = $this->service->shelves($request);
+
         return view('niche.index', compact('niche', 'shelf'));
     }
 
@@ -26,9 +44,9 @@ class NicheController extends Controller
      *
      * @return void
      */
-    public function create()
+    public function create(Request $request)
     {
-        $shelf = Shelf::all();
+        $shelf = $this->service->shelves($request);
 
         return view('niche.create',compact('shelf'));
     }
@@ -41,7 +59,7 @@ class NicheController extends Controller
      */
     public function store(NicheRequest $request)
     {
-        Niche::create([
+        $this->service->create([
             'name' => $request->name,
             'shelf_id' => $request->shelf_id
         ]);
@@ -57,7 +75,7 @@ class NicheController extends Controller
      */
     public function show($id)
     {
-        $niche = Niche::findOrfail($id);
+        $niche = $this->service->read($id);
 
         return view('niche.show', compact('niche'));
     }
@@ -68,10 +86,11 @@ class NicheController extends Controller
      * @param [type] $id
      * @return void
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $niche = Niche::findOrfail($id);
-        $shelves= Shelf::all();
+        $niche = $this->service->read($id);
+        $shelves= $this->service->shelves($request);
+
         return view('niche.edit', compact('niche', 'shelves'));
     }
 
@@ -84,11 +103,12 @@ class NicheController extends Controller
      */
     public function update(NicheRequest $request, $id)
     {
-        $niche = Niche::findOrfail($id);
-        $niche->update([
+        $niche = $this->service->read($id);
+        $this->service->update($id,[
             'name'=>$request->name,
             'shelf_id'=>$request->shelf_id
         ]);
+
         return redirect()->route('niche.index');
     }
 
@@ -100,8 +120,8 @@ class NicheController extends Controller
      */
     public function destroy($id)
     {
-        $niche = Niche::findOrfail($id);
-        $niche->delete();
+        $niche = $this->service->delete($id);
+
         return redirect()->route('niche.index');
     }
 

@@ -37,6 +37,7 @@ class ShelvesController extends Controller
     public function index()
     {
         $shelves = $this->service->repo->getAll();
+
         return view('shelves.index', compact('shelves'));
     }
 
@@ -61,6 +62,7 @@ class ShelvesController extends Controller
         $this->service->create([
             'name' => $request->name
         ]);
+
         return redirect()->route('shelves.index');
     }
 
@@ -85,6 +87,7 @@ class ShelvesController extends Controller
             'name'=>$request->name
 
         ]);
+
         return redirect()->route('shelves.index');
     }
 
@@ -96,8 +99,8 @@ class ShelvesController extends Controller
      */
     public function destroy($id)
     {
-        $shelf = $this->service->read($id);
-        $shelf->delete();
+        $shelf = $this->service->delete($id);
+
         return redirect()->route('shelves.index');
     }
 
@@ -113,9 +116,5 @@ class ShelvesController extends Controller
 
         return view('shelves.show', compact('shelf'));
     }
-
-
-
-
 
 }

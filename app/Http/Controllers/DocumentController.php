@@ -122,7 +122,8 @@ class DocumentController extends Controller
     {
         $document = $this->service->read($id);
         Storage::delete($document->file);
-        $document->delete();
+
+        $this->service->delete($id);
 
         return redirect()->route('document.index');
     }

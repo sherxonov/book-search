@@ -8,8 +8,12 @@
             @csrf
             @method('put')
             <div class="form-group">
+                <label>File name:</label>
+                <input type="text" disabled value="{{ $document->name }}" class="form-control">
+            </div>
+            <div class="form-group">
                 <label>Choose the file:</label>
-                <input type="file" name="file" placeholder="File:" class="form-control">
+                <input type="file" name="file" class="form-control">
             </div>
             <div class="form-group">
                 <select name="folder_id" class="form-control">

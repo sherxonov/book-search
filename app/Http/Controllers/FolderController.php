@@ -21,11 +21,11 @@ class FolderController extends Controller
      *
      * @param FodlerService $folderService
      */
-
     public function __construct(FolderService $folderService)
     {
         $this->service = $folderService;
     }
+
     /**
      * List off all folders
      *
@@ -108,6 +108,7 @@ class FolderController extends Controller
         return view('folder.show', compact('folder'));
 
     }
+
     /**
      * Remove folder
      *
@@ -116,14 +117,9 @@ class FolderController extends Controller
      */
     public function destroy($id)
     {
-        $folder = $this->service->read($id);
-
-        $folder->delete();
+        $folder = $this->service->delete($id);
 
         return redirect()->route('folder.index');
     }
-
-
-
 
 }
