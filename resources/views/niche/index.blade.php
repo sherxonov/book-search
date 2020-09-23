@@ -3,6 +3,11 @@
 @section('content')
 
 <div class="container">
+
+    <a href="{{ route('shelves.index') }}" class="btn btn-secondary">List Shelf</a>
+    <a href="{{ route('folder.index') }}" class="btn btn-secondary">List Folder</a>
+    <a href="{{ route('document.index') }}" class="btn btn-secondary">List Document</a>
+
     <a href="{{ route('niche.create') }}" class="btn btn-outline-secondary mb-2 float-lg-right">Create Niche</a>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -23,7 +28,7 @@
                     <td>{{ ++$counter }}</td>
                     <td>{{ $index->name }}</td>
                     <td>@if(!empty($index->shelf)) {{ $index->shelf->name }} @endif</td>
-                    <td><a class="btn btn-outline-info"><i class="fa fa-eye"></i> Show</a></td>
+                    <td><a href="{{ route('niche.show', $index->id) }}" class="btn btn-outline-info"><i class="fa fa-eye"></i> Show</a></td>
                     <td><a href="{{ route('niche.edit', $index->id) }}" class="btn btn-outline-success"><i class="fa fa-pencil"></i> Edit</a></td>
                     <td>
                         <form action="{{ route('niche.destroy', $index->id)}}" method="POST">

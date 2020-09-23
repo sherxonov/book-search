@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container">
-    <form method = "POST" action="{{ route('niche.store') }}" >
+    <a href="{{ route('niche.index') }}" class="btn btn-outline-warning"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a>
+    <form method = "POST" action="{{ route('niche.store') }}" class="mt-2">
         @csrf
         <div class="form-group">
             <input type="text" name="name" placeholder="Name:" class="form-control">

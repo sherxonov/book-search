@@ -4,12 +4,22 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Shelf extends Model
+class Folder extends Model
 {
-    /** 
-    *@inheritdoc
-    */
+    /**
+     * @inheritdoc
+     */
     protected $guarded = [];
+
+    /**
+     * Relation with Shelf model
+     *
+     * @return void
+     */
+    public function shelf()
+    {
+        return $this->belongsTo(Shelf::class);
+    }
 
     /**
      * Relation with Niche model
@@ -18,18 +28,9 @@ class Shelf extends Model
      */
     public function niche()
     {
-        return $this->hasMany(Niche::class);
+        return $this->belongsTo(Niche::class);
     }
 
-    /**
-     * Relation with Folder model
-     *
-     * @return void
-     */
-    public function folder()
-    {
-        return $this->hasMany(Folder::class);
-    }
 
     /**
      * Relation with Document model

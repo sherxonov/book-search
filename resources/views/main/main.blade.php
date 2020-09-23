@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<h1 class="text-center text-success mt-2">Arxiv</h1>
+<h1 class="text-center text-success mt-2">Archive</h1>
 
 @yield('content')
 

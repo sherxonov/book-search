@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class NicheController extends Controller
 {
+    /**
+     * List of all Niches
+     *
+     * @return void
+     */
     public function index()
     {
         $niche = Niche::all();
@@ -16,6 +21,11 @@ class NicheController extends Controller
         return view('niche.index', compact('niche', 'shelf'));
     }
 
+    /**
+     * Created Niche
+     *
+     * @return void
+     */
     public function create()
     {
         $shelf = Shelf::all();
@@ -23,6 +33,12 @@ class NicheController extends Controller
         return view('niche.create',compact('shelf'));
     }
 
+    /**
+     * Store newly created
+     *
+     * @param NicheRequest $request
+     * @return void
+     */
     public function store(NicheRequest $request)
     {
         Niche::create([
@@ -33,6 +49,25 @@ class NicheController extends Controller
         return redirect()->route('niche.index');
     }
 
+    /**
+     * Show Niche
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function show($id)
+    {
+        $niche = Niche::findOrfail($id);
+
+        return view('niche.show', compact('niche'));
+    }
+
+    /**
+     *
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function edit($id)
     {
         $niche = Niche::findOrfail($id);
@@ -40,6 +75,13 @@ class NicheController extends Controller
         return view('niche.edit', compact('niche', 'shelves'));
     }
 
+    /**
+     * Update Niche
+     *
+     * @param NicheRequest $request
+     * @param [type] $id
+     * @return void
+     */
     public function update(NicheRequest $request, $id)
     {
         $niche = Niche::findOrfail($id);
@@ -49,6 +91,13 @@ class NicheController extends Controller
         ]);
         return redirect()->route('niche.index');
     }
+
+    /**
+     * Remove niche
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function destroy($id)
     {
         $niche = Niche::findOrfail($id);

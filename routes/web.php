@@ -13,11 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('main.main');
-});
 
 
 Route::resource('/shelves', 'ShelvesController');
 
 Route::resource('/niche', 'NicheController');
+
+Route::resource('/folder', 'FolderController');
+
+Route::resource('/document', 'DocumentController');
+
+Route::get('document/{id}/download', 'DocumentController@download')->name('document.download');

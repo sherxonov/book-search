@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNichesTable extends Migration
+class CreateFoldersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateNichesTable extends Migration
      */
     public function up()
     {
-        Schema::create('niches', function (Blueprint $table) {
+        Schema::create('folders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('shelf_id');
+            $table->unsignedBigInteger('niche_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateNichesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('niches');
+        Schema::dropIfExists('folders');
     }
 }

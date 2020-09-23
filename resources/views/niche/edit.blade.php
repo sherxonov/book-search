@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="container">
-        <form  action="{{ route('niche.update', $niche->id) }}" method = "POST" enctype="multipart/form-data">
+        <a href="{{ route('niche.index') }}" class="btn btn-outline-warning"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a>
+        <form  action="{{ route('niche.update', $niche->id) }}" method = "POST" enctype="multipart/form-data" class="mt-2">
             @csrf
             @method('put')
             <div class="form-group">
