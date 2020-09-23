@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repository\FolderRepository;
 use App\Models\Folder;
+use App\Models\Shelf;
 
 class FolderService implements \App\Interfaces\ServiceInterface
 {
@@ -17,7 +18,7 @@ class FolderService implements \App\Interfaces\ServiceInterface
     /**
      * Constructor
      *
-     * @param FolderRepository $foldeerRepository
+     * @param FolderRepository $folderRepository
      */
     public function __construct(FolderRepository $folderRepository)
     {
@@ -39,7 +40,7 @@ class FolderService implements \App\Interfaces\ServiceInterface
     {
         $model = $this->repo->findById($id);
 
-        return $model->update();
+        return $model->update($attibutes);
     }
 
     /**
@@ -60,6 +61,14 @@ class FolderService implements \App\Interfaces\ServiceInterface
         $model = $this->repo->findById($id);
 
         return $model;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function shelves($id)
+    {
+        return Shelf::all();
     }
 
 }

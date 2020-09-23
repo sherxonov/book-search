@@ -13,8 +13,7 @@ class DocumentRepository implements \App\Interfaces\RepositoryInterface
     public function getAll()
     {
         $items = Document::all();
-        $shelf = Shelf::all();
-        return [$items, $shelf];
+        return $items;
     }
 
     /**

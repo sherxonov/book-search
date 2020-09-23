@@ -112,7 +112,7 @@ class DocumentController extends Controller
             'file' => $file_name,
             'folder_id'=>$request->folder_id
         ]);
-
+ 
         return redirect()->route('document.index');
     }
 

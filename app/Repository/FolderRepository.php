@@ -19,9 +19,9 @@ class FolderRepository implements \App\Interfaces\RepositoryInterface
     /**
      * @inheritdoc
      */
-    public function findByAttribute($attibute, $value)
+    public function findByAttribute($attibute, $value, $type = '=')
     {
-        $item = Folder::where($attibute, $value)->get();
+        $item = Folder::where($attibute, $type, $value)->get();
 
         return $item;
     }

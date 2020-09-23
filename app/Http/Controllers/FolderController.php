@@ -2,24 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Folder;
+use App\Models\Folder;
 use App\Http\Requests\FolderRequest;
-use App\Shelf;
+use App\Models\Shelf;
+use App\Services\FolderService;
 use Illuminate\Http\Request;
 
 class FolderController extends Controller
 {
 
     /**
+     * Service attribute
+     *
+     * @var \App\Services\FolderService
+     */
+    protected $service;
+
+    /**
+     * Construct
+     *
+     * @param FodlerService $folderService
+     */
+
+    public function __construct(FolderService $folderService)
+    {
+        $this->service = $folderService;
+    }
+    /**
      * List off all folders
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        $shelves = Shelf::all();
-        $folders = Folder::all();
-        return view('folder.index', compact('folders', 'shelves'));
+        $folders = $this->service->repo->getAll();
+
+        return view('folder.index', compact('folders'));
     }
 
     /**
@@ -27,9 +45,9 @@ class FolderController extends Controller
      *
      * @return void
      */
-    public function create()
+    public function create(Request $request)
     {
-        $shelves = Shelf::all();
+        $shelves = $this->service->shelves($request);
 
         return view('folder.create', compact('shelves'));
     }
@@ -42,19 +60,20 @@ class FolderController extends Controller
      */
     public function store(FolderRequest $request)
     {
-        Folder::create([
+        $this->service->create([
             'name' => $request->name,
             'niche_id' => $request->niche_id
         ]);
 
-
         return redirect()->route('folder.index');
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $folder = Folder::findOrfail($id);
-        $shelves = Shelf::all();
+        $folder = $this->service->read($id);
+
+        $shelves = $this->service->shelves($request);
+
         return view('folder.edit', compact('folder', 'shelves'));
     }
 
@@ -67,8 +86,9 @@ class FolderController extends Controller
      */
     public function update(FolderRequest $request,$id)
     {
-        $folder = Folder::findOrfail($id);
-        $folder->update([
+        $folder = $this->service->read($id);
+
+        $this->service->update($id, [
             'name'=>$request->name,
             'niche_id'=>$request->niche_id
         ]);
@@ -85,7 +105,7 @@ class FolderController extends Controller
      */
     public function show($id)
     {
-        $folder = Folder::findOrfail($id);
+        $folder = $this->service->read($id);
 
         return view('folder.show', compact('folder'));
 
@@ -98,8 +118,10 @@ class FolderController extends Controller
      */
     public function destroy($id)
     {
-        $folder = Folder::findOrfail($id);
+        $folder = $this->service->read($id);
+
         $folder->delete();
+
         return redirect()->route('folder.index');
     }
 

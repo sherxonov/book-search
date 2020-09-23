@@ -39,7 +39,7 @@ class ShelfService implements \App\Interfaces\ServiceInterface
     {
         $model = $this->repo->findById($id);
 
-        return $model->update();
+        return $model->update($attibutes);
     }
 
     /**
