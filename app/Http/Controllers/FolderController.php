@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Folder;
 use App\Http\Requests\FolderRequest;
-use App\Models\Shelf;
 use App\Services\FolderService;
 use Illuminate\Http\Request;
 

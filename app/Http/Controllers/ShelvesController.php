@@ -3,12 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ShelvesRequest;
-use App\Niche;
-use App\Shelf;
+use App\Services\ShelfService;
 use Illuminate\Http\Request;
 
 class ShelvesController extends Controller
 {
+
+
+    /**
+     * Service attribute
+     *
+     * @var \App\Services\ShelfService
+     */
+    protected $service;
+
+    /**
+     * Construct
+     *
+     * @param ShelfService $shelfService
+     */
+
+    public function __construct(ShelfService $shelfService)
+    {
+        $this->service = $shelfService;
+    }
+
 
     /**
      * List of all shelves
@@ -17,7 +36,7 @@ class ShelvesController extends Controller
      */
     public function index()
     {
-        $shelves = Shelf::all();
+        $shelves = $this->service->repo->getAll();
         return view('shelves.index', compact('shelves'));
     }
 
@@ -39,7 +58,7 @@ class ShelvesController extends Controller
      */
     public function store(ShelvesRequest $request)
     {
-        Shelf::create([
+        $this->service->create([
             'name' => $request->name
         ]);
         return redirect()->route('shelves.index');
@@ -47,7 +66,7 @@ class ShelvesController extends Controller
 
     public function edit($id)
     {
-        $shelf = Shelf::findOrfail($id);
+        $shelf = $this->service->read($id);
 
         return view('shelves.edit', compact('shelf'));
     }
@@ -61,8 +80,8 @@ class ShelvesController extends Controller
      */
     public function update(ShelvesRequest $request,$id)
     {
-        $shelf = Shelf::findOrfail($id);
-        $shelf->update([
+        $shelf = $this->service->read($id);
+        $this->service->update($id,[
             'name'=>$request->name
 
         ]);
@@ -77,7 +96,7 @@ class ShelvesController extends Controller
      */
     public function destroy($id)
     {
-        $shelf = Shelf::findOrfail($id);
+        $shelf = $this->service->read($id);
         $shelf->delete();
         return redirect()->route('shelves.index');
     }
@@ -90,7 +109,7 @@ class ShelvesController extends Controller
      */
     public function show($id)
     {
-        $shelf = Shelf::findOrfail($id);
+        $shelf = $this->service->read($id);
 
         return view('shelves.show', compact('shelf'));
     }

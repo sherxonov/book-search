@@ -2,16 +2,16 @@
 
 namespace App\Repository;
 
-use App\Models\Shelf;
+use App\Models\Niche;
 
-class ShelfRepository implements \App\Interfaces\RepositoryInterface
+class NicheRepository implements \App\Interfaces\RepositoryInterface
 {
     /**
      * @inheritdoc
      */
     public function getAll()
     {
-        $items = Shelf::all();
+        $items = Niche::all();
 
         return $items;
     }
@@ -21,7 +21,7 @@ class ShelfRepository implements \App\Interfaces\RepositoryInterface
      */
     public function findByAttribute($attibute, $value, $type = '=')
     {
-        $item = Shelf::where($attibute, $type, $value)->get();
+        $item = Niche::where($attibute, $type, $value)->get();
 
         return $item;
     }
@@ -31,6 +31,6 @@ class ShelfRepository implements \App\Interfaces\RepositoryInterface
      */
     public function findById($id)
     {
-        return shelf::find($id);
+        return Niche::find($id);
     }
 }

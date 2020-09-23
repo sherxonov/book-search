@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Document;
 use App\Http\Requests\DocumentRequest;
-use App\Models\Document as ModelsDocument;
-use App\Shelf;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Services\DocumentService;
 
@@ -112,7 +108,7 @@ class DocumentController extends Controller
             'file' => $file_name,
             'folder_id'=>$request->folder_id
         ]);
- 
+
         return redirect()->route('document.index');
     }
 
